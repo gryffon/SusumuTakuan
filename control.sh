@@ -9,19 +9,19 @@
 
 cmd=$1
 
-if [ "$cmd" eq "start" ]; then
+if [ "$cmd" == "start" ]; then
 		#Start SusumuTakuan
 		supervisorctl start takuan
 
-elif [ "$cmd" eq "stop" ]; then
+elif [ "$cmd" == "stop" ]; then
 		#Stop SusumuTakuan
-		supervisorctl start takuan
+		supervisorctl stop takuan
 
-elif [ "$cmd" eq "restart" ]; then
+elif [ "$cmd" == "restart" ]; then
 		#Restart SusumuTakuan
 		supervisorctl restart takuan
 
-elif [ "$cmd" eq "refresh" ]; then
+elif [ "$cmd" == "refresh" ]; then
 		#Refresh Code
 		git pull
 fi
