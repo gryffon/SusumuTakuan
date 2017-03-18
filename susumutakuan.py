@@ -3,7 +3,7 @@ import asyncio
 import os
 import signal
 import sys
-from subprocess
+import subprocess
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
