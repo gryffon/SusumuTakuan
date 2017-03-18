@@ -19,7 +19,8 @@ sys.stdout = Unbuffered(sys.stdout)
 def sigterm_handler(signum, frame):
     print('Logging out...', flush=True) 
     raise KeyboardInterrupt
-    sys.exit('Shutting down...')
+    print('Shutting down...')
+    sys.exit(0)
 
 #Register SIGTERM Handler
 signal.signal(signal.SIGTERM, sigterm_handler)
