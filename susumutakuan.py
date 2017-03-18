@@ -70,7 +70,12 @@ async def on_message(message):
         elif message.content.startswith('!debug_output'):
             tmp = await client.send_message(message.channel, 'Providing debug log of stdout...')
             message_array=message.content.split(" ")
-            log_lines='-%s' % (message_array[1])
+            try:
+                 num_lines=int(message_array[1])
+            except ValueError:
+                print("debug_error: User gave invalid value for number of lines")
+                tmp = await client.send_message(message.channel, '%s is not a valid number of lines' % (message_array[1]))
+            log_lines='-%d' % (num_lines)
             users = message.channel.recipients
             for user in users:
                 if user.id != client.user.id:
@@ -85,7 +90,12 @@ async def on_message(message):
         elif message.content.startswith('!debug_error'):
             tmp = await client.send_message(message.channel, 'Providing debug log of stderr...')
             message_array=message.content.split(" ")
-            log_lines='-%s' % (message_array[1])
+            try:
+                num_lines=int(message_array[1])
+            except ValueError:
+                print("debug_error: User gave invalid value for number of lines")
+                tmp = await client.send_message(message.channel, '%s is not a valid number of lines' % (message_array[1]))
+            log_lines='-%d' % (num_lines)
             users = message.channel.recipients
             for user in users:
                 if user.id != client.user.id:
