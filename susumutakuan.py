@@ -4,9 +4,16 @@ import os
 import signal
 import sys
 import subprocess
+import imp
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
+
+#Import config
+f = open('takuan.config')
+global config
+config = imp.load_source('config', '', f)
+f.close()
 
 #Create Discord client
 client = discord.Client()
@@ -40,8 +47,13 @@ async def on_message(message):
             for user in users:
                 if user.id != client.user.id:
                     print('%s/%s requested to update my code.' % (user.name, user.id))
-            process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE)
-            tmp = await client.send_message(message.channel, process.stdout)
+
+                if user.id in config.power_users:
+                    process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE)
+                    tmp = await client.send_message(message.channel, process.stdout)
+                else
+                    print('%s/%s not allowed to run update command.' % (user.name, user.id))
+                    tmp = await client.send_message(message.channel, 'Unauthorized')
 
     if message.content.startswith('!test'):
         counter = 0
