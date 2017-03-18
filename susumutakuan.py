@@ -51,7 +51,7 @@ async def on_message(message):
                 if user.id in config.power_users:
                     process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     tmp = await client.send_message(message.channel, process.stdout)
-                else
+                else:
                     print('%s/%s not allowed to run update command.' % (user.name, user.id))
                     tmp = await client.send_message(message.channel, 'Unauthorized')
 
