@@ -9,17 +9,29 @@
 
 cmd=$1
 
+branch=`git branch | cut -d " " -f2`
+
+if [ "$branch" = "master" ]; then
+	#master branch
+	susumu="takuan"
+elif [ "$branch" = "develop" ]; then
+	#develop branch
+	susumu="takuantest"
+fi
+
+
+
 if [ "$cmd" = "start" ]; then
 		#Start SusumuTakuan
-		supervisorctl start takuan
+		supervisorctl start $susumu
 
 elif [ "$cmd" = "stop" ]; then
 		#Stop SusumuTakuan
-		supervisorctl stop takuan
+		supervisorctl stop $susumu
 
 elif [ "$cmd" = "restart" ]; then
 		#Restart SusumuTakuan
-		supervisorctl restart takuan
+		supervisorctl restart $susumu
 
 elif [ "$cmd" = "refresh" ]; then
 		#Refresh Code
