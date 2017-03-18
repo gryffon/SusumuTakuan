@@ -36,6 +36,10 @@ async def on_message(message):
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
             tmp = await client.send_message(message.channel, 'Updating my code via git...')
+            users = message.channel.recipients
+            for user in users:
+                if user.id != client.user.id:
+                    print('%s/%s requested to update my code.' % (user.name, user.id))
             process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE)
             tmp = await client.send_message(message.channel, process.stdout)
 
