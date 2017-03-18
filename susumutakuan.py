@@ -32,7 +32,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     #Look at DMs for special commands
-    if message.channel.startswith('Direct Message'):
+    if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
             tmp = await client.send_message(message.channel, 'Updating my code via git...')
             subprocess.call(["ls", "-l"])
