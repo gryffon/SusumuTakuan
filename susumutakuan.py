@@ -3,17 +3,13 @@ import asyncio
 import os
 import signal
 import sys
-from subprocess import call
-from unbuffered import Unbuffered
+from subprocess import run
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
 
 #Create Discord client
 client = discord.Client()
-
-#Setup unbuffered stdout
-sys.stdout = Unbuffered(sys.stdout)
 
 #Handle shutdown gracefully
 def sigterm_handler(signum, frame):
@@ -40,7 +36,8 @@ async def on_message(message):
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
             tmp = await client.send_message(message.channel, 'Updating my code via git...')
-            call(["sh", "control.sh", "refresh"])
+            process = run(["sh", "control.sh", "refresh"])
+            tmp = await client.send_message(message.channel, process.stdout)
 
     if message.content.startswith('!test'):
         counter = 0
