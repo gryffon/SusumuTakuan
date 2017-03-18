@@ -54,6 +54,20 @@ async def on_message(message):
                 else:
                     print('%s/%s not allowed to run update command.' % (user.name, user.id))
                     tmp = await client.send_message(message.channel, 'Unauthorized')
+        elif message.content.startswith('!restart'):
+            tmp = await client.send_message(message.channel, 'Restarting myself...')
+            users = message.channel.recipients
+            for user in users:
+                if user.id != client.user.id:
+                    print('%s/%s requested to restart me.' % (user.name, user.id))
+
+                if user.id in config.power_users:
+                    process = subprocess.run(["sh", "control.sh", "restart"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                    tmp = await client.send_message(message.channel, process.stdout)
+                else:
+                    print('%s/%s not allowed to run restart command.' % (user.name, user.id))
+                    tmp = await client.send_message(message.channel, 'Unauthorized')
+
 
     if message.content.startswith('!test'):
         counter = 0
