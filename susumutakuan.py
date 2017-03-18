@@ -82,6 +82,21 @@ async def on_message(message):
                 else:
                     print('%s/%s not allowed to run debug command.' % (user.name, user.id))
                     tmp = await client.send_message(message.channel, 'Unauthorized')
+        elif message.content.startswith('!debug_error'):
+            tmp = await client.send_message(message.channel, 'Providing debug log of stderr...')
+            message_array=message.content.split(" ")
+            log_lines='-%s' % (message_array[1])
+            users = message.channel.recipients
+            for user in users:
+                if user.id != client.user.id:
+                    print('%s/%s requested error log.' % (user.name, user.id))
+
+                if user.id in config.power_users:
+                    process = subprocess.run(["tail", log_lines, "logs/error.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                    tmp = await client.send_message(message.channel, process.stdout)
+                else:
+                    print('%s/%s not allowed to run debug command.' % (user.name, user.id))
+                    tmp = await client.send_message(message.channel, 'Unauthorized')
 
 
 
