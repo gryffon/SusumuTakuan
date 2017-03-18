@@ -67,6 +67,22 @@ async def on_message(message):
                 else:
                     print('%s/%s not allowed to run restart command.' % (user.name, user.id))
                     tmp = await client.send_message(message.channel, 'Unauthorized')
+        elif message.content.startswith('!debug_output'):
+            tmp = await client.send_message(message.channel, 'Providing debug log of stdout...')
+            log_lines=20
+            log_line_string='-%d' % (log_lines)
+            users = message.channel.recipients
+            for user in users:
+                if user.id != client.user.id:
+                    print('%s/%s requested output log.' % (user.name, user.id))
+
+                if user.id in config.power_users:
+                    process = subprocess.run(["sh", "tail", log_line_string, "logs/output.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                    tmp = await client.send_message(message.channel, process.stdout)
+                else:
+                    print('%s/%s not allowed to run debug command.' % (user.name, user.id))
+                    tmp = await client.send_message(message.channel, 'Unauthorized')
+
 
 
     if message.content.startswith('!test'):
