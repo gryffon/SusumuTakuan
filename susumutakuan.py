@@ -11,9 +11,9 @@ CLIENT_TOKEN=os.environ['TOKEN']
 client = discord.Client()
 
 #Handle shutdown gracefully
-def sigterm_handler(signum, frame):
+async def sigterm_handler(signum, frame):
     print("Logging out...") 
-    client.logout()
+    raise KeyboardInterrupt
     print('Shutting down...')
     sys.exit(1)
 
