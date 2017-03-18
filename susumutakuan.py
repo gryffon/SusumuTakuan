@@ -48,7 +48,7 @@ async def on_message(message):
                 if user.id != client.user.id:
                     print('%s/%s requested to update my code.' % (user.name, user.id))
 
-                if user.id in config.power_users:
+                if user.id in config.developers:
                     process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     tmp = await client.send_message(message.channel, process.stdout)
                 else:
@@ -61,7 +61,7 @@ async def on_message(message):
                 if user.id != client.user.id:
                     print('%s/%s requested to restart me.' % (user.name, user.id))
 
-                if user.id in config.power_users:
+                if user.id in config.developers:
                     process = subprocess.run(["sh", "control.sh", "restart"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     tmp = await client.send_message(message.channel, process.stdout)
                 else:
@@ -76,7 +76,7 @@ async def on_message(message):
                 if user.id != client.user.id:
                     print('%s/%s requested output log.' % (user.name, user.id))
 
-                if user.id in config.power_users:
+                if user.id in config.developers:
                     process = subprocess.run(["tail", log_lines, "logs/output.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     tmp = await client.send_message(message.channel, process.stdout)
                 else:
@@ -91,7 +91,7 @@ async def on_message(message):
                 if user.id != client.user.id:
                     print('%s/%s requested error log.' % (user.name, user.id))
 
-                if user.id in config.power_users:
+                if user.id in config.developers:
                     process = subprocess.run(["tail", log_lines, "logs/error.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     tmp = await client.send_message(message.channel, process.stdout)
                 else:
