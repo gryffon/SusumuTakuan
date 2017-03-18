@@ -12,10 +12,9 @@ client = discord.Client()
 
 #Handle shutdown gracefully
 def sigterm_handler(signum, frame):
-    print("Logging out...") 
+    print('Logging out...', flush=True) 
     raise KeyboardInterrupt
-    print('Shutting down...')
-    sys.exit(1)
+    sys.exit('Shutting down...')
 
 #Register SIGTERM Handler
 signal.signal(signal.SIGTERM, sigterm_handler)
