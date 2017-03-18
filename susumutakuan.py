@@ -35,7 +35,7 @@ async def on_message(message):
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
             tmp = await client.send_message(message.channel, 'Updating my code via git...')
-            subprocess.call(["ls", "-l"])
+            subprocess.call(["sh", "control.sh", "refresh"])
 
     if message.content.startswith('!test'):
         counter = 0
