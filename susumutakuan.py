@@ -77,7 +77,7 @@ async def on_message(message):
                     print('%s/%s requested output log.' % (user.name, user.id))
 
                 if user.id in config.power_users:
-                    process = subprocess.run(["sh", "tail", log_line_string, "logs/output.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                    process = subprocess.run(["tail", log_line_string, "logs/output.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
                     tmp = await client.send_message(message.channel, process.stdout)
                 else:
                     print('%s/%s not allowed to run debug command.' % (user.name, user.id))
