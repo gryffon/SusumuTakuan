@@ -1,11 +1,26 @@
 import discord
 import asyncio
 import os
+import signal
+import sys
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
 
+#Create Discord client
 client = discord.Client()
+
+#Handle shutdown gracefully
+def sigterm_handler(signum, frame):
+    print("Logging out...") 
+    client.logout()
+    print('Shutting down...')
+    sys.exit(1)
+
+#Register SIGTERM Handler
+signal.signal(signal.SIGTERM, sigterm_handler)
+
+
 
 @client.event
 async def on_ready():
