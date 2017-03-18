@@ -36,7 +36,7 @@ async def on_message(message):
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
             tmp = await client.send_message(message.channel, 'Updating my code via git...')
-            process = run(["sh", "control.sh", "refresh"])
+            process = run(["sh", "control.sh", "refresh"], universal_newlines=True)
             tmp = await client.send_message(message.channel, process.stdout)
 
     if message.content.startswith('!test'):
