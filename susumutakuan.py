@@ -3,6 +3,7 @@ import asyncio
 import os
 import signal
 import sys
+import subprocess
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
@@ -30,6 +31,12 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    #Look at DMs for special commands
+    if message.channel.startswith('Direct Message'):
+        if message.content.startswith('!update'):
+            tmp = await client.send_message(message.channel, 'Updating my code via git...')
+            subprocess.call(["ls", "-l"])
+
     if message.content.startswith('!test'):
         counter = 0
         tmp = await client.send_message(message.channel, 'Calculating messages...')
@@ -38,8 +45,9 @@ async def on_message(message):
                 counter += 1
 
         await client.edit_message(tmp, 'You have {} messages.'.format(counter))
-    elif message.content.startswith('!sleep'):
-        await asyncio.sleep(5)
-        await client.send_message(message.channel, 'Done sleeping')
 
+
+
+
+#Start event loop
 client.run(CLIENT_TOKEN)
