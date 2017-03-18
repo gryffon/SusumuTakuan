@@ -69,7 +69,7 @@ async def on_message(message):
                     tmp = await client.send_message(message.channel, 'Unauthorized')
         elif message.content.startswith('!debug_output'):
             tmp = await client.send_message(message.channel, 'Providing debug log of stdout...')
-            message_array=string.split(message.content," ")
+            message_array=message.content.split(" ")
             log_lines='-%s' % (message_array[1])
             users = message.channel.recipients
             for user in users:
