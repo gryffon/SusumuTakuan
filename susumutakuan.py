@@ -3,7 +3,7 @@ import asyncio
 import os
 import signal
 import sys
-from subprocess import run
+from subprocess
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
@@ -36,7 +36,7 @@ async def on_message(message):
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
             tmp = await client.send_message(message.channel, 'Updating my code via git...')
-            process = run(["sh", "control.sh", "refresh"], universal_newlines=True)
+            process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE)
             tmp = await client.send_message(message.channel, process.stdout)
 
     if message.content.startswith('!test'):
