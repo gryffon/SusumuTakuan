@@ -3,7 +3,6 @@ import asyncio
 import os
 import signal
 import sys
-import subprocess
 import imp
 import developer
 
@@ -43,13 +42,13 @@ async def on_message(message):
     #Look at DMs for special commands
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
-            developer.update_git(client, message)
+            await developer.update_git(client, message)
         elif message.content.startswith('!restart'):
-            developer.restart_bot(client, message)
+            await developer.restart_bot(client, message)
         elif message.content.startswith('!debug_output'):
-            developer.debug_output(client, message)
+            await developer.debug_output(client, message)
         elif message.content.startswith('!debug_error'):
-            developer.debug_error(client, message)
+            await developer.debug_error(client, message)
 
     if message.content.startswith('!test'):
         counter = 0
