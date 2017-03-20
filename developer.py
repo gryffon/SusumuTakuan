@@ -8,14 +8,14 @@ import discord
 import asyncio
 import subprocess
 
-async def update_git(client, message):
+async def update_git(client, message, developers):
 	tmp = await client.send_message(message.channel, 'Updating my code via git...')
 	users = message.channel.recipients
 	for user in users:
 		if user.id != client.user.id:
 			print('%s/%s requested to update my code.' % (user.name, user.id))
 
-		if user.id in config.developers:
+		if user.id in developers:
 			process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:
@@ -23,21 +23,21 @@ async def update_git(client, message):
 			tmp = await client.send_message(message.channel, 'Unauthorized')	
 
 
-async def restart_bot(client, message):
+async def restart_bot(client, message, developers):
 	tmp = await client.send_message(message.channel, 'Restarting myself...')
 	users = message.channel.recipients
 	for user in users:
 		if user.id != client.user.id:
 			print('%s/%s requested to restart me.' % (user.name, user.id))
 
-		if user.id in config.developers:
+		if user.id in developers:
 			process = subprocess.run(["sh", "control.sh", "restart"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:
 			print('%s/%s not allowed to run restart command.' % (user.name, user.id))
 			tmp = await client.send_message(message.channel, 'Unauthorized')
 
-async def debug_output(client, message):
+async def debug_output(client, message, developers):
 	tmp = await client.send_message(message.channel, 'Providing debug log of stdout...')
 	message_array=message.content.split(" ")
 	try:
@@ -51,14 +51,14 @@ async def debug_output(client, message):
 		if user.id != client.user.id:
 			print('%s/%s requested output log.' % (user.name, user.id))
 
-		if user.id in config.developers:
+		if user.id in developers:
 			process = subprocess.run(["tail", log_lines, "logs/output.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:
 			print('%s/%s not allowed to run debug command.' % (user.name, user.id))
 			tmp = await client.send_message(message.channel, 'Unauthorized')
 
-async def debug_error(client, message):
+async def debug_error(client, message, developers):
 	tmp = await client.send_message(message.channel, 'Providing debug log of stderr...')
 	message_array=message.content.split(" ")
 	try:
@@ -72,7 +72,7 @@ async def debug_error(client, message):
 		if user.id != client.user.id:
 			print('%s/%s requested error log.' % (user.name, user.id))
 
-		if user.id in config.developers:
+		if user.id in developers:
 			process = subprocess.run(["tail", log_lines, "logs/error.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:
