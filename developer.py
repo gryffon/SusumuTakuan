@@ -6,7 +6,7 @@
 
 import discord
 import asyncio
-import subprocesss
+import subprocess
 
 async def update_git(client, message):
 	tmp = await client.send_message(message.channel, 'Updating my code via git...')
