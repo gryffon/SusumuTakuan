@@ -9,7 +9,7 @@ import asyncio
 import subprocesss
 
 async def update_git(client, message):
-    tmp = await client.send_message(message.channel, 'Updating my code via git...')
+	tmp = await client.send_message(message.channel, 'Updating my code via git...')
 	users = message.channel.recipients
 	for user in users:
 		if user.id != client.user.id:
@@ -36,7 +36,7 @@ async def restart_bot(client, message):
 		else:
 			print('%s/%s not allowed to run restart command.' % (user.name, user.id))
 			tmp = await client.send_message(message.channel, 'Unauthorized')
-        
+
 async def debug_output(client, message):
 	tmp = await client.send_message(message.channel, 'Providing debug log of stdout...')
 	message_array=message.content.split(" ")
