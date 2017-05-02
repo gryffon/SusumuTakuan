@@ -22,21 +22,21 @@ class Server(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	owner_id = Column(Integer, ForeignKey('users.id'))
-	owner = relationship(User, backref('servers', uselist=True))
+	owner = relationship(User, backref=backref('servers', uselist=True))
 
 class Role(Base):
 	__tablename__ = 'roles'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
-	server = relationship(Server, backref('roles', uselist=True))
+	server = relationship(Server, backref=backref('roles', uselist=True))
 
 class Channel(Base):
 	__tablename__ = 'channels'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
-	server = relationship(Server, backref('roles', uselist=True))
+	server = relationship(Server, backref=backref('roles', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
 class CommandClass(Base):
@@ -50,14 +50,14 @@ class Command(Base):
 	name = Column(String(250), nullable=False)
 	squelch = Column(Boolean, nullable=False)
 	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
-	command_class = relationship(CommandClass, backref('commands', uselist=True))
+	command_class = relationship(CommandClass, backref=backref('commands', uselist=True))
 
 class RoleCommandAccess(Base):
 	__tablename__ = 'rolecommands'
 	id = Column(Integer, primary_key=True)
 	role = Column(Integer, ForeignKey('roles.id'))
 	command_id = Column(Integer, ForeignKey('commands.id'))
-	command = relationship(Command, backref('rolecommands', uselist=True))
+	command = relationship(Command, backref=backref('rolecommands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
 class RoleCommandClassAccess(Base):
@@ -65,7 +65,7 @@ class RoleCommandClassAccess(Base):
 	id = Column(Integer, primary_key=True)
 	role = Column(Integer, ForeignKey('roles.id'))
 	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
-	command_class = relationship(CommandClass, backref('commands', uselist=True))
+	command_class = relationship(CommandClass, backref=backref('commands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
 class UserCommandAccess(Base):
@@ -73,7 +73,7 @@ class UserCommandAccess(Base):
 	id = Column(Integer, primary_key=True)
 	user = Column(Integer, ForeignKey('users.id'))
 	command_id = Column(Integer, ForeignKey('commands.id'))
-	command = relationship(Command, backref('rolecommands', uselist=True))
+	command = relationship(Command, backref=backref('rolecommands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
 class UserCommandClassAccess(Base):
@@ -81,7 +81,7 @@ class UserCommandClassAccess(Base):
 	id = Column(Integer, primary_key=True)
 	user = Column(Integer, ForeignKey('users.id'))
 	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
-	command_class = relationship(CommandClass, backref('commands', uselist=True))
+	command_class = relationship(CommandClass, backref=backref('commands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
 
