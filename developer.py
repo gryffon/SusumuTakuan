@@ -34,13 +34,13 @@ def register_functions(session):
 	if (cmd_id == None ):
 		cmd_debug_output = Command(name="debug_output", squelch=False)
 		cmd_debug_output.command_class = dev_class
-		session.add(debug_output)
+		session.add(cmd_debug_output)
 
 	cmd_id = session.query(Command).filter(Command.name == 'debug_error').first()		
 	if (cmd_id == None ):
 		cmd_debug_error = Command(name="debug_error", squelch=False)
 		cmd_debug_error.command_class = dev_class
-		session.add(debug_error)
+		session.add(cmd_debug_error)
 
 	session.commit()
 
