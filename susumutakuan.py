@@ -5,6 +5,7 @@ import signal
 import sys
 import imp
 import developer
+import database
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
@@ -14,6 +15,12 @@ f = open('takuan.config')
 global config
 config = imp.load_source('config', '', f)
 f.close()
+
+#Create database session
+session = database.DBSession()
+
+#Register bot class and functions
+developer.register_functions()
 
 #Create Discord client
 client = discord.Client()
@@ -37,6 +44,7 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
+#Register events
 @client.event
 async def on_message(message):
     #Look at DMs for special commands

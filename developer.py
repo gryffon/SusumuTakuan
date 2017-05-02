@@ -8,6 +8,43 @@ import discord
 import asyncio
 import subprocess
 
+from database import Command, CommandClass
+
+#Create database registration function
+def register_functions(session):
+
+	class_id = session.query(CommandClass).filter(CommandClass.name == 'developer').first()
+	if ( class_id == None ):
+		dev_class = CommandClass(name="developer")
+		session.add(dev_class)
+
+	cmd_id = session.query(Command).filter(Command.name == 'update_git').first()		
+	if (cmd_id == None ):
+		cmd_update_git = Command(name="update_git")
+		cmd_update_git.command_class = dev_class
+		session.add(cmd_update_git)
+
+	cmd_id = session.query(Command).filter(Command.name == 'restart_bot').first()		
+	if (cmd_id == None ):
+		cmd_restart_bot = Command(name="restart_bot")
+		cmd_restart_bot.command_class = dev_class
+		session.add(cmd_restart_bot)
+
+	cmd_id = session.query(Command).filter(Command.name == 'debug_output').first()		
+	if (cmd_id == None ):
+		cmd_debug_output = Command(name="debug_output")
+		cmd_debug_output.command_class = dev_class
+		session.add(debug_output)
+
+	cmd_id = session.query(Command).filter(Command.name == 'debug_error').first()		
+	if (cmd_id == None ):
+		cmd_debug_error = Command(name="debug_error")
+		cmd_debug_error.command_class = dev_class
+		session.add(debug_error)
+
+	session.commit()
+
+
 async def update_git(client, message, developers):
 	tmp = await client.send_message(message.channel, 'Updating my code via git...')
 	users = message.channel.recipients

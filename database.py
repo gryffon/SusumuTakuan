@@ -8,6 +8,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
+from sqlalchemy import sessionmaker
 
 
 class User(Base):
@@ -83,3 +84,5 @@ engine = create_engine('sqlite:///susumu_takuan.db')
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
 Base.metadata.create_all(engine)
+
+DBSession = sessionmaker(bind=engine)
