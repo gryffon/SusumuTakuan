@@ -20,25 +20,25 @@ def register_functions(session):
 
 	cmd_id = session.query(Command).filter(Command.name == 'update_git').first()		
 	if (cmd_id == None ):
-		cmd_update_git = Command(name="update_git")
+		cmd_update_git = Command(name="update_git", squelch=False)
 		cmd_update_git.command_class = dev_class
 		session.add(cmd_update_git)
 
 	cmd_id = session.query(Command).filter(Command.name == 'restart_bot').first()		
 	if (cmd_id == None ):
-		cmd_restart_bot = Command(name="restart_bot")
+		cmd_restart_bot = Command(name="restart_bot", squelch=False)
 		cmd_restart_bot.command_class = dev_class
 		session.add(cmd_restart_bot)
 
 	cmd_id = session.query(Command).filter(Command.name == 'debug_output').first()		
 	if (cmd_id == None ):
-		cmd_debug_output = Command(name="debug_output")
+		cmd_debug_output = Command(name="debug_output", squelch=False)
 		cmd_debug_output.command_class = dev_class
 		session.add(debug_output)
 
 	cmd_id = session.query(Command).filter(Command.name == 'debug_error').first()		
 	if (cmd_id == None ):
-		cmd_debug_error = Command(name="debug_error")
+		cmd_debug_error = Command(name="debug_error", squelch=False)
 		cmd_debug_error.command_class = dev_class
 		session.add(debug_error)
 
