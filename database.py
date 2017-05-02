@@ -21,21 +21,21 @@ class Server(Base):
 	__tablename__ = 'servers'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	owner.id = Column(Integer, ForeignKey('users.id'))
+	owner_id = Column(Integer, ForeignKey('users.id'))
 	owner = relationship(User, backref('servers', uselist=True))
 
 class Role(Base):
 	__tablename__ = 'roles'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	server.id = Column(Integer, ForeignKey('servers.id'))
+	server_id = Column(Integer, ForeignKey('servers.id'))
 	server = relationship(Server, backref('roles', uselist=True))
 
 class Channel(Base):
 	__tablename__ = 'channels'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	server.id = Column(Integer, ForeignKey('servers.id'))
+	server_id = Column(Integer, ForeignKey('servers.id'))
 	server = relationship(Server, backref('roles', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
@@ -49,14 +49,14 @@ class Command(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	squelch = Column(Boolean, nullable=False)
-	command_class.id = Column(Integer, ForeignKey('commandclasses.id'))
+	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
 	command_class = relationship(CommandClass, backref('commands', uselist=True))
 
 class RoleCommandAccess(Base):
 	__tablename__ = 'rolecommands'
 	id = Column(Integer, primary_key=True)
 	role = Column(Integer, ForeignKey('roles.id'))
-	command.id = Column(Integer, ForeignKey('commands.id'))
+	command_id = Column(Integer, ForeignKey('commands.id'))
 	command = relationship(Command, backref('rolecommands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
@@ -64,7 +64,7 @@ class RoleCommandClassAccess(Base):
 	__tablename__ = 'rolecommandclasses'
 	id = Column(Integer, primary_key=True)
 	role = Column(Integer, ForeignKey('roles.id'))
-	command_class.id = Column(Integer, ForeignKey('commandclasses.id'))
+	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
 	command_class = relationship(CommandClass, backref('commands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
@@ -72,7 +72,7 @@ class UserCommandAccess(Base):
 	__tablename__ = 'usercommands'
 	id = Column(Integer, primary_key=True)
 	user = Column(Integer, ForeignKey('users.id'))
-	command.id = Column(Integer, ForeignKey('commands.id'))
+	command_id = Column(Integer, ForeignKey('commands.id'))
 	command = relationship(Command, backref('rolecommands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
@@ -80,7 +80,7 @@ class UserCommandClassAccess(Base):
 	__tablename__ = 'usercommandclasses'
 	id = Column(Integer, primary_key=True)
 	user = Column(Integer, ForeignKey('users.id'))
-	command_class.id = Column(Integer, ForeignKey('commandclasses.id'))
+	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
 	command_class = relationship(CommandClass, backref('commands', uselist=True))
 	squelch = Column(Boolean, nullable=False)
 
