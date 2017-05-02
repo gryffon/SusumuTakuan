@@ -20,7 +20,7 @@ f.close()
 session = database.DBSession()
 
 #Register bot class and functions
-developer.register_functions()
+developer.register_functions(session)
 
 #Create Discord client
 client = discord.Client()
