@@ -9,7 +9,7 @@ import discord
 from database import Server, Channel
 
 def register_server_and_channels(session, server):
-	
+
 	server_id = session.query(Server).filter(Server.name == server.name).first()
 	if ( server_id == None ):
 		the_server = Server(name=server.name)
@@ -22,6 +22,6 @@ def register_server_and_channels(session, server):
 		if ( channel_id == None ):
 			new_channel = Channel(name=channel.name, squelch=False)
 			new_channel.server = the_server
-			session.add(new_server)
+			session.add(the_server)
 
 	session.commit()
