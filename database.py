@@ -16,7 +16,7 @@ class User(Base):
 	__tablename__ = 'users'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	squelch = Column(Boolean, nullable=False)
+	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
 		return '<User:{}'.format(self.name)
@@ -38,7 +38,7 @@ class Role(Base):
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
 	server = relationship(Server, backref=backref('roles', uselist=True))
-	squelch = Column(Boolean, nullable=False)
+	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
 		return '<Role:{}'.format(self.name)
@@ -49,7 +49,7 @@ class Channel(Base):
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
 	server = relationship(Server, backref=backref('channels', uselist=True))
-	squelch = Column(Boolean, nullable=False)
+	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
 		return '<Channel:{}'.format(self.name)
@@ -68,7 +68,7 @@ class Command(Base):
 	name = Column(String(250), nullable=False)
 	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
 	command_class = relationship(CommandClass, backref=backref('commands', uselist=True))
-	squelch = Column(Boolean, nullable=False)
+	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
 		return '<Command:{}'.format(self.name)
@@ -80,7 +80,7 @@ class CommandAccess(Base):
 	commandclass_id = Column(Integer, default=0)
 	role_id = Column(Integer, default=0)
 	user_id = Column(Integer, default=0)
-	squelch = Column(Boolean, nullable=False)
+	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
 		return '<CommandAccess:{}'.format(self.id)

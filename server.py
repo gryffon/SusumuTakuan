@@ -51,7 +51,7 @@ def register_server(session, server):
 	for channel in server.channels:
 		channel_id = session.query(Channel).filter(Channel.name == channel.name, Channel.server_id == server.id).first()
 		if ( channel_id == None ):
-			new_channel = Channel(name=channel.name, squelch=False)
+			new_channel = Channel(name=channel.name)
 			new_channel.server = the_server
 			session.add(new_channel)
 
