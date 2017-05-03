@@ -8,8 +8,7 @@ import discord
 
 from database import Server, Channel
 
-async def on_server_join(server):
-
+def register_server_and_channels(server):
 	server_id = session.query(Server).filter(Server.name == server.name).first()
 	if ( server_id == None ):
 		the_server = Server(name=server.name)

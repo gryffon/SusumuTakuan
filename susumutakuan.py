@@ -47,6 +47,9 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
+    for server in client.servers:
+        server.register_server_and_channels(server)
+
 #Register events
 @client.event
 async def on_message(message):
@@ -71,12 +74,9 @@ async def on_message(message):
         await client.edit_message(tmp, 'You have {} messages.'.format(counter))
 
 
-#Test event
 @client.event
 async def on_server_join(server):
-    print(server.name)
-    
-#on_server_join = client.event(server.on_server_join)
+    server.register_server_and_channels(server)
 
 
 
