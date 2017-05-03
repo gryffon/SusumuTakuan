@@ -6,9 +6,10 @@
 
 import discord
 
-from database import Server, Channel, User
+from database import Server, Channel, User, Role
 
-def register_server_and_channels(session, server):
+#Registers all of the data about a Discord server into the database
+def register_server(session, server):
 
 	owner_id = session.query(User).filter(User.id == server.owner.id).first()
 	if ( owner_id == None ):
@@ -26,10 +27,17 @@ def register_server_and_channels(session, server):
 		the_server = server_id
 
 	for channel in server.channels:
-		channel_id = session.query(Channel).filter(Channel.name == channel.name).first()
+		channel_id = session.query(Channel).filter(Channel.name == channel.name, Channel.server_id == server.id).first()
 		if ( channel_id == None ):
 			new_channel = Channel(name=channel.name, squelch=False)
 			new_channel.server = the_server
-			session.add(the_server)
+			session.add(new_channel)
+
+	for role in server.roles:
+		role_id = session.query(Role).filter(Role.name == role.name, Role.server_id == server.id).first()
+		if ( role_id == None ):
+			new_role = Role(name=role.name)
+			new_role.server = the_server
+			session.add(new_role)
 
 	session.commit()

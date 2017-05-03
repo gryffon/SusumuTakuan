@@ -48,7 +48,7 @@ async def on_ready():
     print('------')
 
     for client_server in client.servers:
-        server.register_server_and_channels(session, client_server)
+        server.register_server(session, client_server)
 
 #Register events
 @client.event
@@ -76,7 +76,7 @@ async def on_message(message):
 
 @client.event
 async def on_server_join(client_server):
-    server.register_server_and_channels(session, client_server)
+    server.register_server(session, client_server)
 
 
 
