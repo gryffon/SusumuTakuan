@@ -8,7 +8,7 @@ import discord
 
 from database import Server, Channel
 
-async def on_server_join(server)
+async def on_server_join(server):
 
 	server_id = session.query(Server).filter(Server.name == server.name).first()
 	if ( server_id == None ):
