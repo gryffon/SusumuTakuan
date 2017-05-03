@@ -70,7 +70,13 @@ async def on_message(message):
 
         await client.edit_message(tmp, 'You have {} messages.'.format(counter))
 
-on_server_join = client.event(server.on_server_join)
+
+#Test event
+@client.event
+async def on_server_join(server):
+    print(server.name)
+    
+#on_server_join = client.event(server.on_server_join)
 
 
 
