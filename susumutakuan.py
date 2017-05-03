@@ -4,8 +4,11 @@ import os
 import signal
 import sys
 import imp
+
+#Local Imports
 import developer
 import database
+import server
 
 #Set up Client State
 CLIENT_TOKEN=os.environ['TOKEN']
@@ -67,6 +70,7 @@ async def on_message(message):
 
         await client.edit_message(tmp, 'You have {} messages.'.format(counter))
 
+on_server_join = client.event(server.on_server_join)
 
 
 
