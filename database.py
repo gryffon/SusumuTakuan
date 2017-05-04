@@ -66,8 +66,8 @@ class CommandClass(Base):
 	__tablename__ = 'commandclasses'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	users = relationship(UserCommandAccess, back_populates="command")
-	roles = relationship(RoleCommandAccess, back_populates="command")
+	users = relationship('UserCommandAccess', back_populates="command")
+	roles = relationship('RoleCommandAccess', back_populates="command")
 
 	def __repr__(self):
 		return '<CommandClass:{}'.format(self.name)
