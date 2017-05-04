@@ -85,7 +85,7 @@ class Command(Base):
 
 class UserCommandAccess(Base):
 	__tablename__ = 'usercommandaccess'
-	command_class_id = Column(Integer, ForeignKey('commandclassess.id'), primary_key=True)
+	command_class_id = Column(Integer, ForeignKey('commandclasses.id'), primary_key=True)
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	squelch = Column(Boolean, nullable=False, default=False)
 
@@ -94,7 +94,7 @@ class UserCommandAccess(Base):
 
 class RoleCommandAccess(Base):
 	__tablename__ = 'rolecommandaccess'
-	command_class_id = Column(Integer, ForeignKey('commandclassess.id'), primary_key=True)
+	command_class_id = Column(Integer, ForeignKey('commandclasses.id'), primary_key=True)
 	role_id = Column(Integer, ForeignKey('roles.id'), primary_key=True)
 	squelch = Column(Boolean, nullable=False, default=False)
 
