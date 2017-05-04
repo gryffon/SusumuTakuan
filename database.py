@@ -34,7 +34,7 @@ class Server(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	owner_id = Column(Integer, ForeignKey('users.id'))
-	owner = relationship(User, backref=backref('servers', uselist=True))
+	owner = relationship('User', backref=backref('servers', uselist=True))
 
 	def __repr__(self):
 		return '<Server:{}'.format(self.name)
@@ -90,7 +90,7 @@ class UserCommandAccess(Base):
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	command_classes = relationship('CommandClass', back_populates="users")
-	user = relationship(User, back_populates="command_classes")
+	user = relationship('User', back_populates="command_classes")
 
 class RoleCommandAccess(Base):
 	__tablename__ = 'rolecommandaccess'
