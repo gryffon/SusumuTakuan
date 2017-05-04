@@ -21,8 +21,8 @@ class User(Base):
 	__tablename__ = 'users'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	roles = relationship(Role, secondary='user_role', backref='users')
-	command_classes = relationship(UserCommandAccess, back_populates="user")
+	roles = relationship('Role', secondary='user_role', backref='users')
+	command_classes = relationship('UserCommandAccess', back_populates="user")
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -44,8 +44,8 @@ class Role(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
-	server = relationship(Server, backref=backref('roles', uselist=True))
-	command_classes = relationship(UserCommandAccess, back_populates="user")
+	server = relationship('Server', backref=backref('roles', uselist=True))
+	command_classes = relationship('UserCommandAccess', back_populates="user")
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -56,7 +56,7 @@ class Channel(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
-	server = relationship(Server, backref=backref('channels', uselist=True))
+	server = relationship('Server', backref=backref('channels', uselist=True))
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -77,7 +77,7 @@ class Command(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
-	command_class = relationship(CommandClass, backref=backref('commands', uselist=True))
+	command_class = relationship('CommandClass', backref=backref('commands', uselist=True))
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -89,7 +89,7 @@ class UserCommandAccess(Base):
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	squelch = Column(Boolean, nullable=False, default=False)
 
-	command_classes = relationship(CommandClass, back_populates="users")
+	command_classes = relationship('CommandClass', back_populates="users")
 	user = relationship(User, back_populates="command_classes")
 
 class RoleCommandAccess(Base):
@@ -98,8 +98,8 @@ class RoleCommandAccess(Base):
 	role_id = Column(Integer, ForeignKey('roles.id'), primary_key=True)
 	squelch = Column(Boolean, nullable=False, default=False)
 
-	command_classes = relationship(CommandClass, back_populates="roles")
-	role = relationship(User, back_populates="command_classes")
+	command_classes = relationship('CommandClass', back_populates="roles")
+	role = relationship('User', back_populates="command_classes")
 
 
 # Create an engine that stores data in the local directory's
