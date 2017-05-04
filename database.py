@@ -45,7 +45,7 @@ class Role(Base):
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
 	server = relationship('Server', backref=backref('roles', uselist=True))
-	command_classes = relationship('RoleCommandAccess', back_populates="user")
+	command_classes = relationship('RoleCommandAccess', back_populates="role")
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
