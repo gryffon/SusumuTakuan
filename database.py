@@ -12,10 +12,17 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
+user_role_table = Table('user_role', Base.metadata,
+	Column('user_id', Integer, ForeignKey('users.id')),
+	Column('role_id', Integer, ForeignKey('roles.id'))
+)
+
 class User(Base):
 	__tablename__ = 'users'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
+	roles = relationship(Role, secondary='user_role', backref='users')
+	command_classes = relationship(UserCommandAccess, back_populates="user")
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -38,6 +45,7 @@ class Role(Base):
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
 	server = relationship(Server, backref=backref('roles', uselist=True))
+	command_classes = relationship(UserCommandAccess, back_populates="user")
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -58,6 +66,8 @@ class CommandClass(Base):
 	__tablename__ = 'commandclasses'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
+	users = relationship(UserCommandAccess, back_populates="command")
+	roles = relationship(RoleCommandAccess, back_populates="command")
 
 	def __repr__(self):
 		return '<CommandClass:{}'.format(self.name)
@@ -73,18 +83,23 @@ class Command(Base):
 	def __repr__(self):
 		return '<Command:{}'.format(self.name)
 
-class CommandAccess(Base):
-	__tablename__ = 'commandaccess'
-	id = Column(Integer, primary_key=True)
-	command_id = Column(Integer, default=0)
-	commandclass_id = Column(Integer, default=0)
-	role_id = Column(Integer, default=0)
-	user_id = Column(Integer, default=0)
+class UserCommandAccess(Base):
+	__tablename__ = 'usercommandaccess'
+	command_class_id = Column(Integer, ForeignKey('commandclassess.id'), primary_key=True)
+	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	squelch = Column(Boolean, nullable=False, default=False)
 
-	def __repr__(self):
-		return '<CommandAccess:{}'.format(self.id)
+	command_classes = relationship(CommandClass, back_populates="users")
+	user = relationship(User, back_populates="command_classes")
 
+class RoleCommandAccess(Base):
+	__tablename__ = 'rolecommandaccess'
+	command_class_id = Column(Integer, ForeignKey('commandclassess.id'), primary_key=True)
+	role_id = Column(Integer, ForeignKey('roles.id'), primary_key=True)
+	squelch = Column(Boolean, nullable=False, default=False)
+
+	command_classes = relationship(CommandClass, back_populates="roles")
+	role = relationship(User, back_populates="command_classes")
 
 
 # Create an engine that stores data in the local directory's
