@@ -8,7 +8,7 @@ import discord
 import asyncio
 import subprocess
 
-from database import Command, CommandClass
+from database import Command, CommandClass, Role, User
 
 #Create database registration function
 def register_functions(session):
