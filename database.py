@@ -66,8 +66,8 @@ class CommandClass(Base):
 	__tablename__ = 'commandclasses'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	users = relationship('UserCommandAccess', back_populates="command")
-	roles = relationship('RoleCommandAccess', back_populates="command")
+	users = relationship('UserCommandAccess', back_populates="command_class")
+	roles = relationship('RoleCommandAccess', back_populates="command_class")
 
 	def __repr__(self):
 		return '<CommandClass:{}'.format(self.name)
@@ -89,7 +89,7 @@ class UserCommandAccess(Base):
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	squelch = Column(Boolean, nullable=False, default=False)
 
-	command_classes = relationship('CommandClass', back_populates="users")
+	command_class = relationship('CommandClass', back_populates="users")
 	user = relationship('User', back_populates="command_classes")
 
 class RoleCommandAccess(Base):
@@ -98,7 +98,7 @@ class RoleCommandAccess(Base):
 	role_id = Column(Integer, ForeignKey('roles.id'), primary_key=True)
 	squelch = Column(Boolean, nullable=False, default=False)
 
-	command_classes = relationship('CommandClass', back_populates="roles")
+	command_class = relationship('CommandClass', back_populates="roles")
 	role = relationship('User', back_populates="command_classes")
 
 
