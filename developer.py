@@ -44,6 +44,22 @@ def register_functions(session):
 
 	session.commit()
 
+#Add developers to internal group
+def register_developer_access(session, developers):
+
+		developer_class = session.query(CommandClass).filter(CommandClass.name == 'developer').first()
+		developer_role = session.query(Role).filter(Role.name == 'developer', Role.server_id == 1).first() 
+
+		developer_class.roles.append(developer_role)
+
+
+	for developer in developers:
+		the_developer = session.query(User).filter(User.id == 'developer').first()
+		if ( the_developer == None):
+			the_developer.roles.append(developer_role)
+
+		session.commit()
+
 
 async def update_git(client, message, developers):
 	tmp = await client.send_message(message.channel, 'Updating my code via git...')
