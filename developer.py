@@ -47,10 +47,10 @@ def register_functions(session):
 #Add developers to internal group
 def register_developer_access(session, developers):
 
-		developer_class = session.query(CommandClass).filter(CommandClass.name == 'developer').first()
-		developer_role = session.query(Role).filter(Role.name == 'developer', Role.server_id == 1).first() 
+	developer_class = session.query(CommandClass).filter(CommandClass.name == 'developer').first()
+	developer_role = session.query(Role).filter(Role.name == 'developer', Role.server_id == 1).first() 
 
-		developer_class.roles.append(developer_role)
+	developer_class.roles.append(developer_role)
 
 
 	for developer in developers:
@@ -58,7 +58,7 @@ def register_developer_access(session, developers):
 		if ( the_developer == None):
 			the_developer.roles.append(developer_role)
 
-		session.commit()
+	session.commit()
 
 
 async def update_git(client, message, developers):
