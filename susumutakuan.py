@@ -24,6 +24,7 @@ session = database.DBSession()
 
 #Register bot class and functions
 developer.register_functions(session)
+developer.register_developer_access(session, config.developers)
 server.create_internal_server(session)
 
 #Create Discord client
