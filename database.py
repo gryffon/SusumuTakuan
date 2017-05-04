@@ -99,7 +99,7 @@ class RoleCommandAccess(Base):
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	command_class = relationship('CommandClass', back_populates="roles")
-	role = relationship('User', back_populates="command_classes")
+	role = relationship('Role', back_populates="command_classes")
 
 
 # Create an engine that stores data in the local directory's
