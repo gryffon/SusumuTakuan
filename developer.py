@@ -8,7 +8,9 @@ import discord
 import asyncio
 import subprocess
 
+import access
 from database import Command, CommandClass, Role, User
+
 
 #Create database registration function
 def register_functions(session):
@@ -50,7 +52,7 @@ def register_developer_access(session, developers):
 	developer_class = session.query(CommandClass).filter(CommandClass.name == 'developer').first()
 	developer_role = session.query(Role).filter(Role.name == 'developer', Role.server_id == 1).first() 
 
-	developer_class.roles.append(developer_role)
+	access.grant_role_access(developer_role, developer_class)
 
 
 	for developer in developers:
