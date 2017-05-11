@@ -22,7 +22,6 @@ class User(Base):
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
 	roles = relationship('Role', secondary='user_role', backref='users')
-	command_classes = relationship('UserCommandAccess', back_populates="user")
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -45,7 +44,6 @@ class Role(Base):
 	name = Column(String(250), nullable=False)
 	server_id = Column(Integer, ForeignKey('servers.id'))
 	server = relationship('Server', backref=backref('roles', uselist=True))
-	command_classes = relationship('RoleCommandAccess', back_populates="role")
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
@@ -63,11 +61,9 @@ class Channel(Base):
 		return '<Channel:{}'.format(self.name)
 
 class CommandClass(Base):
-	__tablename__ = 'commandclasses'
+	__tablename__ = 'command_classes'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	users = relationship('UserCommandAccess', back_populates="command_class")
-	roles = relationship('RoleCommandAccess', back_populates="command_class")
 
 	def __repr__(self):
 		return '<CommandClass:{}'.format(self.name)
@@ -76,30 +72,28 @@ class Command(Base):
 	__tablename__ = 'commands'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(250), nullable=False)
-	command_class_id = Column(Integer, ForeignKey('commandclasses.id'))
+	command_class_id = Column(Integer, ForeignKey('command_classes.id'))
 	command_class = relationship('CommandClass', backref=backref('commands', uselist=True))
 	squelch = Column(Boolean, nullable=False, default=False)
 
 	def __repr__(self):
 		return '<Command:{}'.format(self.name)
 
-class UserCommandAccess(Base):
-	__tablename__ = 'usercommandaccess'
-	command_class_id = Column(Integer, ForeignKey('commandclasses.id'), primary_key=True)
-	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-	squelch = Column(Boolean, nullable=False, default=False)
+class CommandClassAccess(Base):
+	__tablename__ = 'command_classes_access'
+	id = Column(Integer, primary_key=True)
+	user_id = Column(Integer, nullable=False, default=0)
+	role_id = Column(Integer, nullable=False, default=0)
+	command_class_id = Column(Integer, nullable=False, default=0)
+	
+class CommandChannelMute(Base):
+	__tablename__ = 'command_channel_mute'
+	id = Column(Integer, primary_key=True)
+	command_id = Column(Integer, nullable=False, default=0)
+	command_class_id = Column(Integer, nullable=False, default=0)
+	channel_id = Column(Integer, nullable=False, default=0)
 
-	command_class = relationship('CommandClass', back_populates="users")
-	user = relationship('User', back_populates="command_classes")
 
-class RoleCommandAccess(Base):
-	__tablename__ = 'rolecommandaccess'
-	command_class_id = Column(Integer, ForeignKey('commandclasses.id'), primary_key=True)
-	role_id = Column(Integer, ForeignKey('roles.id'), primary_key=True)
-	squelch = Column(Boolean, nullable=False, default=False)
-
-	command_class = relationship('CommandClass', back_populates="roles")
-	role = relationship('Role', back_populates="command_classes")
 
 
 # Create an engine that stores data in the local directory's
