@@ -52,7 +52,7 @@ def register_developer_access(session, developers):
 	developer_class = session.query(CommandClass).filter(CommandClass.name == 'developer').first()
 	developer_role = session.query(Role).filter(Role.name == 'developer', Role.server_id == 1).first() 
 
-	access.grant_role_access(developer_role, developer_class)
+	access.grant_role_access(session, developer_role, developer_class)
 
 
 	for developer in developers:
