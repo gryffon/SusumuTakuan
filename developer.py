@@ -57,7 +57,7 @@ def register_developer_access(session, developers):
 
 	for developer in developers:
 		the_developer = session.query(User).filter(User.id == developer).first()
-		if ( the_developer == None):
+		if ( the_developer != None):
 			the_developer.roles.append(developer_role)
 
 	session.commit()
