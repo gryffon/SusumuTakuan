@@ -23,7 +23,7 @@ def create_internal_server(session):
 
 	role_id = session.query(Role).filter(Role.name == 'developer', Role.server_id == 1).first()
 	if ( role_id == None ):
-		new_role = Role(name='developer', server_id=the_server.id)
+		new_role = Role(id=1, name='developer', server_id=the_server.id)
 		session.add(new_role)
 
 	session.commit()
