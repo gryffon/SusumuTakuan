@@ -49,17 +49,15 @@ def register_server(session, server):
 		the_server = server_id
 
 	for channel in server.channels:
-		channel_id = session.query(Channel).filter(Channel.name == channel.name, Channel.server_id == server.id).first()
+		channel_id = session.query(Channel).filter(Channel.id == channel.id, Channel.server_id == server.id).first()
 		if ( channel_id == None ):
-			new_channel = Channel(name=channel.name)
-			new_channel.server = the_server
+			new_channel = Channel(id=channel.id, name=channel.name, server_id=the_server)
 			session.add(new_channel)
 
 	for role in server.roles:
-		role_id = session.query(Role).filter(Role.name == role.name, Role.server_id == server.id).first()
+		role_id = session.query(Role).filter(Role.id == role.id, Role.server_id == server.id).first()
 		if ( role_id == None ):
-			new_role = Role(name=role.name)
-			new_role.server = the_server
+			new_role = Role(id=role.id, name=role.name, server_id=the_server)
 			session.add(new_role)
 
 	session.commit()
