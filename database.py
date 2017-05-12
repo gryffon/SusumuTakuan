@@ -41,10 +41,10 @@ class Server(Base):
 class Role(Base):
 	__tablename__ = 'roles'
 	id = Column(Integer, primary_key=True)
+	server_id = Column(Integer, ForeignKey('servers.id'), primary_key=True)
 	name = Column(String(250), nullable=False)
-	server_id = Column(Integer, ForeignKey('servers.id'))
-	server = relationship('Server', backref=backref('roles', uselist=True))
 	squelch = Column(Boolean, nullable=False, default=False)
+	server = relationship('Server', backref=backref('roles', uselist=True))
 
 	def __repr__(self):
 		return '<Role:{}'.format(self.name)
@@ -52,10 +52,10 @@ class Role(Base):
 class Channel(Base):
 	__tablename__ = 'channels'
 	id = Column(Integer, primary_key=True)
+	server_id = Column(Integer, ForeignKey('servers.id'), primary_key=True)
 	name = Column(String(250), nullable=False)
-	server_id = Column(Integer, ForeignKey('servers.id'))
-	server = relationship('Server', backref=backref('channels', uselist=True))
 	squelch = Column(Boolean, nullable=False, default=False)
+	server = relationship('Server', backref=backref('channels', uselist=True))
 
 	def __repr__(self):
 		return '<Channel:{}'.format(self.name)
