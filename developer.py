@@ -8,7 +8,7 @@ import discord
 import asyncio
 import subprocess
 
-import access
+from access import has_access
 from database import Command, CommandClass, Role, User, get_user_by_id
 
 
