@@ -66,6 +66,8 @@ async def on_message(message):
             await developer.debug_output(client, message, session)
         elif message.content.startswith('!debug_error'):
             await developer.debug_error(client, message, session)
+        elif message.content.startswith('!scan_server'):
+            await server.scan_server(client, message, session)
 
     if message.content.startswith('!test'):
         counter = 0
@@ -81,7 +83,25 @@ async def on_message(message):
 async def on_server_join(client_server):
     server.register_server(session, client_server)
 
+@client.event
+async def on_member_join(member):
+    server.add_user(session, member)
 
+@client.event
+async def on_member_update(before, after):
+    server.update_user_roles(session, before, after)
+
+@client.event
+async def on_server_role_create(role):
+    server.add_server_role(session, role)
+
+@client.event
+async def on_server_role_delete(role):
+    server.del_server_role(session, role)
+
+@client.event
+async def on_server_role_update(before, after):
+    server.update_server_role(session, before, after)
 
 #Start event loop
 client.run(CLIENT_TOKEN)
