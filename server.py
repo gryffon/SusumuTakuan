@@ -60,3 +60,62 @@ def register_server(session, server):
 			session.add(new_role)
 
 	session.commit()
+
+#Scan server for users and populates user/roles tables
+async def scan_server(client, message, session):
+	command = session.query(Command).filter(Command.name == 'scan_server').first()
+
+	tmp = await client.send_message(message.channel, 'Scanning server for users...')
+	users = message.channel.recipients
+	for user in users:
+		if user.id != client.user.id:
+			print('%s/%s requested to scan server for users.' % (user.name, user.id))
+
+	server = message.server
+
+	if ( user.id == server.owner.id ):
+
+		for member in server.members:
+			member_id = session.query(User).filter(User.id == member.id).first()
+			if ( owner_id == None ):
+				the_member = User(id=member.id, name=member.name)
+			else:
+				the_member = member_id
+
+			for role in member.roles:
+				the_role = session.query(Role).filter(Role.id == role.id, Role.server_id == server.id).first()
+				if ( the_role not in the_member.roles ):
+					the_member.roles.append(the_role)
+
+			session.add(the_member)
+
+		session.commit()
+	else:
+		print('%s/%s not allowed to run server scan command.' % (user.name, user.id))
+		tmp = await client.send_message(message.channel, 'Unauthorized')
+
+#Add user to database
+async def add_user(session, member):
+	user_id = session.query(User).filter(User.id == member.id).first()
+	if ( user_id == None ):
+		the_member = User(id=member.id, name=member.name)
+		for role in member.roles:
+			the_role = session.query(Role).filter(Role.id == role.id, Role.server_id == role.server_id).first()
+			the_member.roles.append(the_role)		
+
+		session.add(the_member)
+		session.commit()
+
+
+
+#Update user roles
+async def update_user_roles(session, before, after):
+
+#Add server role
+async def add_server_role(session, role):
+
+#Remove server role
+async def del_server_role(session, role):
+
+#Update server role
+async def update_server_role(session, before, after):
