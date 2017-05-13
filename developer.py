@@ -71,7 +71,7 @@ async def update_git(client, message, session):
 		if user.id != client.user.id:
 			print('%s/%s requested to update my code.' % (user.name, user.id))
 
-		db_user = get_user_by_id(user.id)
+		db_user = get_user_by_id(session, user.id)
 		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
@@ -88,7 +88,7 @@ async def restart_bot(client, message, session):
 		if user.id != client.user.id:
 			print('%s/%s requested to restart me.' % (user.name, user.id))
 
-		db_user = get_user_by_id(user.id)
+		db_user = get_user_by_id(session, user.id)
 		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["sh", "control.sh", "restart"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
@@ -111,7 +111,7 @@ async def debug_output(client, message, session):
 		if user.id != client.user.id:
 			print('%s/%s requested output log.' % (user.name, user.id))
 
-		db_user = get_user_by_id(user.id)
+		db_user = get_user_by_id(session, user.id)
 		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["tail", log_lines, "logs/output.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
@@ -134,7 +134,7 @@ async def debug_error(client, message, session):
 		if user.id != client.user.id:
 			print('%s/%s requested error log.' % (user.name, user.id))
 
-		db_user = get_user_by_id(user.id)
+		db_user = get_user_by_id(session, user.id)
 		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["tail", log_lines, "logs/error.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
