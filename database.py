@@ -3,6 +3,7 @@
 #
 # set up and manage a database for storing data between sessions
 #
+import logging
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, Table
 from sqlalchemy.ext.declarative import declarative_base
@@ -94,7 +95,7 @@ class CommandChannelMute(Base):
 	channel_id = Column(Integer, nullable=False, default=0)
 
 
-
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 # Create an engine that stores data in the local directory's
 # sqlalchemy_example.db file.

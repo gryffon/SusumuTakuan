@@ -4,6 +4,9 @@ import os
 import signal
 import sys
 import imp
+import logging
+
+logging.basicConfig()
 
 #Local Imports
 import developer
