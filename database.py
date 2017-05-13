@@ -95,8 +95,6 @@ class CommandChannelMute(Base):
 	channel_id = Column(Integer, nullable=False, default=0)
 
 
-logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-
 # Create an engine that stores data in the local directory's
 # sqlalchemy_example.db file.
 engine = create_engine('sqlite:///susumu_takuan.db')

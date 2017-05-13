@@ -41,7 +41,7 @@ def register_server(session, server):
 
 	server_id = session.query(Server).filter(Server.name == server.name).first()
 	if ( server_id == None ):
-		the_server = Server(name=server.name)
+		the_server = Server(id=server.id, name=server.name)
 		the_server.owner = the_owner
 		session.add(the_server)
 	else:
