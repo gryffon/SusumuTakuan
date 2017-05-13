@@ -9,7 +9,7 @@ import asyncio
 import subprocess
 
 import access
-from database import Command, CommandClass, Role, User
+from database import Command, CommandClass, Role, User, get_user_by_id
 
 
 #Create database registration function
@@ -63,14 +63,16 @@ def register_developer_access(session, developers):
 	session.commit()
 
 
-async def update_git(client, message, developers):
+async def update_git(client, message, session):
+	command_class = session.query(Command).filter(Command.name == 'update_git').first()
 	tmp = await client.send_message(message.channel, 'Updating my code via git...')
 	users = message.channel.recipients
 	for user in users:
 		if user.id != client.user.id:
 			print('%s/%s requested to update my code.' % (user.name, user.id))
 
-		if user.id in developers:
+		db_user = get_user_by_id(user.id)
+		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["sh", "control.sh", "refresh"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:
@@ -78,21 +80,24 @@ async def update_git(client, message, developers):
 			tmp = await client.send_message(message.channel, 'Unauthorized')	
 
 
-async def restart_bot(client, message, developers):
+async def restart_bot(client, message, session):
+	command_class = session.query(Command).filter(Command.name == 'restart_bot').first()
 	tmp = await client.send_message(message.channel, 'Restarting myself...')
 	users = message.channel.recipients
 	for user in users:
 		if user.id != client.user.id:
 			print('%s/%s requested to restart me.' % (user.name, user.id))
 
-		if user.id in developers:
+		db_user = get_user_by_id(user.id)
+		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["sh", "control.sh", "restart"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:
 			print('%s/%s not allowed to run restart command.' % (user.name, user.id))
 			tmp = await client.send_message(message.channel, 'Unauthorized')
 
-async def debug_output(client, message, developers):
+async def debug_output(client, message, session):
+	command_class = session.query(Command).filter(Command.name == 'debug_output').first()
 	tmp = await client.send_message(message.channel, 'Providing debug log of stdout...')
 	message_array=message.content.split(" ")
 	try:
@@ -106,14 +111,16 @@ async def debug_output(client, message, developers):
 		if user.id != client.user.id:
 			print('%s/%s requested output log.' % (user.name, user.id))
 
-		if user.id in developers:
+		db_user = get_user_by_id(user.id)
+		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["tail", log_lines, "logs/output.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:
 			print('%s/%s not allowed to run debug command.' % (user.name, user.id))
 			tmp = await client.send_message(message.channel, 'Unauthorized')
 
-async def debug_error(client, message, developers):
+async def debug_error(client, message, session):
+	command_class = session.query(Command).filter(Command.name == 'debug_error').first()
 	tmp = await client.send_message(message.channel, 'Providing debug log of stderr...')
 	message_array=message.content.split(" ")
 	try:
@@ -127,7 +134,8 @@ async def debug_error(client, message, developers):
 		if user.id != client.user.id:
 			print('%s/%s requested error log.' % (user.name, user.id))
 
-		if user.id in developers:
+		db_user = get_user_by_id(user.id)
+		if ( has_access(session, db_user, command_class)):
 			process = subprocess.run(["tail", log_lines, "logs/error.log"], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			tmp = await client.send_message(message.channel, process.stdout)
 		else:

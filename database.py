@@ -95,6 +95,10 @@ class CommandChannelMute(Base):
 	channel_id = Column(Integer, nullable=False, default=0)
 
 
+def get_user_by_id(session, user_id):
+	return session.query(User).filter(User.id == user_id).first()
+
+
 # Create an engine that stores data in the local directory's
 # sqlalchemy_example.db file.
 engine = create_engine('sqlite:///susumu_takuan.db')

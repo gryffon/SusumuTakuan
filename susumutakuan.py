@@ -59,13 +59,13 @@ async def on_message(message):
     #Look at DMs for special commands
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):
-            await developer.update_git(client, message, config.developers)
+            await developer.update_git(client, message, session)
         elif message.content.startswith('!restart'):
-            await developer.restart_bot(client, message, config.developers)
+            await developer.restart_bot(client, message, session)
         elif message.content.startswith('!debug_output'):
-            await developer.debug_output(client, message, config.developers)
+            await developer.debug_output(client, message, session)
         elif message.content.startswith('!debug_error'):
-            await developer.debug_error(client, message, config.developers)
+            await developer.debug_error(client, message, session)
 
     if message.content.startswith('!test'):
         counter = 0
