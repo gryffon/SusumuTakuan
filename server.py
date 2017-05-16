@@ -97,12 +97,12 @@ async def add_server_role(session, role):
 
 #Remove server role
 async def del_server_role(session, role):
-	role_id = session.query(Role).filter(Role.id == role.id, Role.server_id = role.server_id).delete()
+	role_id = session.query(Role).filter(Role.id == role.id, Role.server_id == role.server_id).delete()
 	session.commit()
 
 #Update server role
 async def update_server_role(session, before, after):
-	role_id = session.query(Role).filter(Role.id == before.id, Role.server_id = before.server_id).first()
+	role_id = session.query(Role).filter(Role.id == before.id, Role.server_id == before.server_id).first()
 	if ( role_id != None ):
 		role_id.name = after.name
 
