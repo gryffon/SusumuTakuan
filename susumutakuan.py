@@ -66,8 +66,6 @@ async def on_message(message):
             await developer.debug_output(client, message, session)
         elif message.content.startswith('!debug_error'):
             await developer.debug_error(client, message, session)
-        elif message.content.startswith('!scan_server'):
-            await server.scan_server(client, message, session)
 
     if message.content.startswith('!test'):
         counter = 0
