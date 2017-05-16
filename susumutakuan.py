@@ -56,6 +56,12 @@ async def on_ready():
 #Register events
 @client.event
 async def on_message(message):
+    #Attempt to ensure user exists
+    the_user = database.get_user_by_id(session, message.author.id)
+    if ( the_user == None ):
+        server.add_user(session, author)
+
+
     #Look at DMs for special commands
     if message.channel.type == discord.ChannelType.private:
         if message.content.startswith('!update'):

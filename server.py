@@ -88,7 +88,7 @@ async def update_user_roles(session, before, after):
 
 #Add server role
 async def add_server_role(session, role):
-	role_id = session.query(Role).filter(Role.id == role.id, Role.server_id = role.server_id).first()
+	role_id = session.query(Role).filter(Role.id == role.id, Role.server_id == role.server_id).first()
 	if ( role_id == None ):
 		the_role = Role(id=role.id, server_id=role.server_id, name=role.name)
 
